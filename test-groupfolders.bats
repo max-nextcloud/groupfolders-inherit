@@ -20,7 +20,6 @@ END_INPUT
     assert_output ''
 }
 
-## FIXME: this should return nothing as the mapping is the same.
 @test 'Process two entries in separate lines' {
     #[[ $BATS_RUN_SKIPPED == "true" ]] || skip
     run jq -rc -f groupfolders.jq << 'END_INPUT'
@@ -30,7 +29,7 @@ END_INPUT
 	}
 END_INPUT
     assert_success
-    assert_output '{"dir":[{"mapping":{"type":"group","id":"admin"},"mask":24,"permissions":7}]}'
+    assert_output ''
 }
 
 @test 'Generates missing line for inheritance' {
