@@ -28,15 +28,13 @@ END_INPUT
 {
 	"hello": "world",
 	"a": "root",
-	"bla": "bla",
-	"bla/blub": "blub"
+	"bla": "bla"
 }
 END_INPUT
     assert_success
     assert_line --index 0 --partial '{"a":'
     assert_line --index 1 --partial '{"bla":'
-    assert_line --index 2 --partial '{"bla/blub":'
-    assert_line --index 3 --partial '{"hello"'
+    assert_line --index 2 --partial '{"hello"'
 }
 
 @test 'clear root /' {
@@ -49,3 +47,19 @@ END_INPUT
     assert_success
     assert_line '{"":{"value":"root"}}'
 }
+
+@test 'Adds parent to entry' {
+    #[[ $BATS_RUN_SKIPPED == "true" ]] || skip
+    run jq -rc -f ancestors.jq << 'END_INPUT'
+{
+	"hello": "world",
+	"/": "root",
+	"bla": "bla",
+	"bla/blub": "blub"
+}
+END_INPUT
+    assert_success
+    assert_line --partial '{"bla/blub":{"value":"blub","parent":'
+#    assert_line --partial '{"hello":{"value":"world","parent":{'
+}
+
