@@ -54,12 +54,26 @@ END_INPUT
 {
 	"hello": "world",
 	"/": "root",
+	"bla": "bla"
+}
+END_INPUT
+    assert_success
+    assert_line --partial '{"bla":{"value":"bla","parent":'
+    assert_line --partial '{"hello":{"value":"world","parent":{'
+}
+
+@test 'Adds parent to entry with nesting' {
+    #[[ $BATS_RUN_SKIPPED == "true" ]] || skip
+    run jq -rc -f ancestors.jq << 'END_INPUT'
+{
+	"hello": "world",
+	"/": "root",
 	"bla": "bla",
 	"bla/blub": "blub"
 }
 END_INPUT
     assert_success
-    assert_line --partial '{"bla/blub":{"value":"blub","parent":'
-#    assert_line --partial '{"hello":{"value":"world","parent":{'
+    assert_line --partial '{"blub":{"value":"blub","parent":'
+    assert_line --partial '{"hello":{"value":"world","parent":{'
 }
 

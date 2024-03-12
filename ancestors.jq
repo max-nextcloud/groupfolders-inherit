@@ -9,8 +9,15 @@ to_entries
 | reduce .[] as $item ([];
 	last as $previous
 	| if $previous and ($item.key | startswith($previous.key))
-	then . += [$item + {parent: $previous.value}] 
-	else . += [$item]
+	then
+		. += [$item + {parent: $previous}]
+	else
+		if $previous.parent and ($item.key | startswith($previous.parent.key))
+		then
+			. += [$item + {parent: $previous.parent}]
+		else
+			. += [$item]
+		end
 	end
 )
 | .[]
