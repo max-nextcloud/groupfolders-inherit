@@ -10,7 +10,6 @@ if .["\/"] then .
 	if ($item.key != "\/")
 		and ($item.value | all(.mapping != $admin.mapping) )
 	then . += [{key: $item.key, value: [$admin]}]
-	# then . += [$item, {($item.key): $first.value}]
 	else . 
 	end
 )
