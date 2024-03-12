@@ -4,7 +4,7 @@ load bats-extra
 
 @test 'Process empty!' {
     #[[ $BATS_RUN_SKIPPED == "true" ]] || skip
-    run jq -r -f ancestors.jq << 'END_INPUT'
+    run jq -r -f lib/ancestors.jq << 'END_INPUT'
 {}
 END_INPUT
     assert_success
@@ -13,7 +13,7 @@ END_INPUT
 
 @test 'Process single entry as is' {
     #[[ $BATS_RUN_SKIPPED == "true" ]] || skip
-    run jq -rc -f ancestors.jq << 'END_INPUT'
+    run jq -rc -f lib/ancestors.jq << 'END_INPUT'
 {
 	"hello": "world"
 }
@@ -24,7 +24,7 @@ END_INPUT
 
 @test 'Sort entries' {
     #[[ $BATS_RUN_SKIPPED == "true" ]] || skip
-    run jq -rc -f ancestors.jq << 'END_INPUT'
+    run jq -rc -f lib/ancestors.jq << 'END_INPUT'
 {
 	"hello": "world",
 	"a": "root",
@@ -39,7 +39,7 @@ END_INPUT
 
 @test 'clear root /' {
     #[[ $BATS_RUN_SKIPPED == "true" ]] || skip
-    run jq -rc -f ancestors.jq << 'END_INPUT'
+    run jq -rc -f lib/ancestors.jq << 'END_INPUT'
 {
 	"/": "root"
 }
@@ -50,7 +50,7 @@ END_INPUT
 
 @test 'Adds parent to entry' {
     #[[ $BATS_RUN_SKIPPED == "true" ]] || skip
-    run jq -rc -f ancestors.jq << 'END_INPUT'
+    run jq -rc -f lib/ancestors.jq << 'END_INPUT'
 {
 	"hello": "world",
 	"/": "root",
@@ -64,7 +64,7 @@ END_INPUT
 
 @test 'Adds parent to entry with nesting' {
     #[[ $BATS_RUN_SKIPPED == "true" ]] || skip
-    run jq -rc -f ancestors.jq << 'END_INPUT'
+    run jq -rc -f lib/ancestors.jq << 'END_INPUT'
 {
 	"hello": "world",
 	"/": "root",
